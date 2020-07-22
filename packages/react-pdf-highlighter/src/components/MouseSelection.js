@@ -71,8 +71,6 @@ class MouseSelection extends Component<Props, State> {
 
     const that = this;
 
-    const { onSelection, onDragStart, onDragEnd, shouldStart } = this.props;
-
     const container = this.root.parentElement;
 
     if (!(container instanceof HTMLElement)) {
@@ -106,7 +104,7 @@ class MouseSelection extends Component<Props, State> {
     });
 
     container.addEventListener("mousedown", (event: MouseEvent) => {
-      if (!shouldStart(event)) {
+      if (!this.props.shouldStart(event)) {
         this.reset();
         return;
       }
@@ -117,7 +115,7 @@ class MouseSelection extends Component<Props, State> {
         return;
       }
 
-      onDragStart();
+      this.props.onDragStart();
 
       this.setState({
         start: containerCoords(event.pageX, event.pageY),
@@ -161,9 +159,9 @@ class MouseSelection extends Component<Props, State> {
             }
 
             if (event.target instanceof HTMLElement) {
-              onSelection(startTarget, boundingRect, that.reset);
+              this.props.onSelection(startTarget, boundingRect, that.reset);
 
-              onDragEnd();
+              this.props.onDragEnd();
             }
           }
         );
